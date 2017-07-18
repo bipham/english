@@ -8,7 +8,7 @@ $.ajaxSetup({
 });
 var baseUrl = document.location.origin;
 var quizId = $('#quiz-test-area').data('quizid');
-var lessonId = $('#lesson-content-area').data('lessonid');
+var lessonId = $('#pr-post').data('lessonid');
 
 function scrollToHighlight(i) {
     // alert('Scroll to: ' + i);
@@ -19,10 +19,10 @@ function scrollToHighlight(i) {
     $('.highlight-' + i).addClass('highlighting');
     var qnumber = $('#pr-post .highlight-' + i).data('qnumber');
     var idClass = 'hl-answer-' + qnumber;
-    // $('html,body').animate({
-    //         scrollTop: $("#"+idClass).offset().top
-    //     }, 2000);
-    // $('.highlight-' + i).focus();
+    $('html,body').animate({
+            scrollTop: $("#"+idClass).offset().top - 20
+        }, 2000);
+    $('.highlight-' + i).focus();
 }
 
 function showComments(i) {

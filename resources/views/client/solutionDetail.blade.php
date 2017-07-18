@@ -22,7 +22,7 @@
                     </h3>
                 </div>
                 <div class="card-block">
-                    <div id="lesson-content-area" data-lessonid="{!! $lesson->id !!}">
+                    <div id="pr-post" data-lessonid="{!! $lesson->id !!}">
                         {!! $lesson->content_highlight !!}
                     </div>
                 </div>

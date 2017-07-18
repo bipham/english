@@ -369,6 +369,7 @@ function checkStepQuiz() {
 }
 
 function checkStepAnswer() {
+    listAnswer = {};
     $('.preview-content-quiz .card-block .last-option').each(function () {
         var qnumber = $(this).data('qnumber');
         var qorder = $(this).attr('name');
