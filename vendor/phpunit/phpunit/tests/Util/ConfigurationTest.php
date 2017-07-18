@@ -225,7 +225,7 @@ class Util_ConfigurationTest extends PHPUnit_Framework_TestCase
             'include_path' =>
             [
               dirname(__DIR__) . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . '.',
-              '/path/to/lib'
+              '/path/to/libs'
             ],
             'ini'    => ['foo' => 'bar'],
             'const'  => ['FOO' => false, 'BAR' => true],
@@ -249,7 +249,7 @@ class Util_ConfigurationTest extends PHPUnit_Framework_TestCase
     {
         $this->configuration->handlePHPConfiguration();
 
-        $path = dirname(__DIR__) . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . '.' . PATH_SEPARATOR . '/path/to/lib';
+        $path = dirname(__DIR__) . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . '.' . PATH_SEPARATOR . '/path/to/libs';
         $this->assertStringStartsWith($path, ini_get('include_path'));
         $this->assertEquals(false, FOO);
         $this->assertEquals(true, BAR);

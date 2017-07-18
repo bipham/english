@@ -21,7 +21,7 @@ return [
         'vendor/hoa/console/',
         'vendor/jakub-onderka/php-console-color/src/',
         'vendor/jakub-onderka/php-console-highlighter/src/',
-        'vendor/nikic/php-parser/lib/',
+        'vendor/nikic/php-parser/libs/',
         'vendor/phpdocumentor/reflection-docblock/',
         'vendor/symfony/console/',
         'vendor/symfony/filesystem/',

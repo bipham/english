@@ -19,7 +19,7 @@ use RandomLib\Factory;
 
 /**
  * RandomLibAdapter provides functionality to generate strings of random
- * binary data using the ircmaxell/random-lib library
+ * binary data using the ircmaxell/random-libs library
  *
  * @link https://packagist.org/packages/ircmaxell/random-lib
  */
@@ -36,7 +36,7 @@ class RandomLibAdapter implements RandomGeneratorInterface
      * By default, if no `Generator` is passed in, this creates a medium-strength
      * generator to use when generating random binary data.
      *
-     * @param Generator $generator An ircmaxell/random-lib `Generator`
+     * @param Generator $generator An ircmaxell/random-libs `Generator`
      */
     public function __construct(Generator $generator = null)
     {

@@ -30,7 +30,7 @@ class AmqpHandler extends AbstractProcessingHandler
     protected $exchangeName;
 
     /**
-     * @param AMQPExchange|AMQPChannel $exchange     AMQPExchange (php AMQP ext) or PHP AMQP lib channel, ready for use
+     * @param AMQPExchange|AMQPChannel $exchange     AMQPExchange (php AMQP ext) or PHP AMQP libs channel, ready for use
      * @param string                   $exchangeName
      * @param int                      $level
      * @param bool                     $bubble       Whether the messages that are handled can bubble up the stack or not

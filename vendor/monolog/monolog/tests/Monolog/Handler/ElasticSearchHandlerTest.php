@@ -36,7 +36,7 @@ class ElasticSearchHandlerTest extends TestCase
 
     public function setUp()
     {
-        // Elastica lib required
+        // Elastica libs required
         if (!class_exists("Elastica\Client")) {
             $this->markTestSkipped("ruflin/elastica not installed");
         }

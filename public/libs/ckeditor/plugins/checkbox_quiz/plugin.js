@@ -9,7 +9,7 @@ CKEDITOR.plugins.add( 'checkbox_quiz', {
         editor.ui.addButton( 'checkbox_quiz', {
             label: 'Insert Checkbox Quiz',
             command: 'insertCheckboxQuiz',
-            toolbar: 'forms,0'
+            toolbar: 'others,0'
         });
          CKEDITOR.dialog.add( 'checkbox_quizDialog', this.path + 'dialogs/checkbox_quiz.js' );
     }
