@@ -18,7 +18,7 @@
 @endsection
 @section('content')
     <div class="container upload-page-custom container-page-custom" data-idquestion="{!! $id_ques !!}">
-        <form role="form" action="{!!route('getupload')!!}" method="POST" enctype="multipart/form-data">
+        <form role="form" action="{!!route('getUploadReadingLesson')!!}" method="POST" enctype="multipart/form-data">
             <input type="hidden" name="_token" value="{!!csrf_token()!!}">
             <div class="row row-steps-info">
                 dsadsd
@@ -96,6 +96,21 @@
                     </div>
                     <div class="card-block">
                         <div class="form-group">
+                            <label for="typelesson">
+                                Loại Bài học!
+                            </label>
+                            <select class="form-control" id="typeLesson" name="typelesson" >
+                                <option value="1">1 dạng!</option>
+                                <option value="2">Nhiều dạng (mix type)!</option>
+                                <option value="3">Full test!</option>
+                            </select>
+
+                            <label for="limittime">
+                                Limit Time!
+                            </label>
+                            <input type="number" name="limittime" class="form-control" required id="limitTime" value="0">
+                        </div>
+                        <div class="form-group">
                             <label for="content">
                                 Nội dung
                             </label>
@@ -120,6 +135,8 @@
                 </div>
             </div>
             <div class="row step-answer-key hidden-class">
+                <div class="type-only-question-area full-width-class">
+                </div>
                 <div class="col-md-8 card preview-content-quiz">
                     <div class="card-header">
                         <h3 class="text-left">
@@ -180,32 +197,7 @@
                 </div>
             </div>
             <div class="row step-preview-post hidden-class">
-                <div class="col-md-2 card type-quiz">
-                    <div class="card-header">
-                        <h3 class="text-left">
-                            Dang cau hoi!
-                        </h3>
-                    </div>
-                    <div class="card-block">
-                        <div id="show-list-type-quiz">
-                            <?php
-                            foreach ($list_type_quiz as $type_quiz):
-                                echo '<input type="checkbox" name="type_quiz" value="' . $type_quiz->id .'">' . $type_quiz->name . '<br />';
-                            endforeach;
-                            ?>
-                        </div>
-                        <div class="form-group">
-                            <label for="create-new-type-quiz">
-                                Tao loai cau hoi moi!
-                            </label>
-                            <input type="text" name="create-new-type-quiz" class="form-control" placeholder="Điền vào đây" required id="newTypeQuiz">
-                            <button type="button" class="btn btn-success btn-create-new-type-quiz">
-                                Create
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-5 card preview-post">
+                <div class="col-md-6 card preview-post">
                     <div class="card-header">
                         <h3 class="text-left">
                             Noi dung Post!
@@ -215,7 +207,7 @@
                         <div id="pr-post"> </div>
                     </div>
                 </div>
-                <div class="col-md-5 card preview-quiz">
+                <div class="col-md-6 card preview-quiz">
                     <div class="card-header">
                         <h3 class="text-left">
                             Noi dung Quiz!

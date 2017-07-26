@@ -17,7 +17,7 @@
             <?php
                 $title_lesson = str_replace(" ","-", $lesson->title);
             ?>
-            <a href="{{route('readingPost.show', 'lesson' . $lesson->id . '-' . $title_lesson)}}">
+            <a href="{{route('reading.readingLesson', 'lesson' . $lesson->id . '-' . $title_lesson)}}">
                 <h4 class="card-title title-product">{!! $lesson->title !!}</h4>
             </a>
         </span>

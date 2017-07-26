@@ -16,7 +16,7 @@ class CreateReadingLessonsTable extends Migration
         Schema::create('reading_lessons', function (Blueprint $table) {
             $table->increments('id');
             $table->string('title');
-            $table->text('content_post');
+            $table->text('content_lesson');
             $table->text('content_highlight');
             $table->string('image_feature')->nullable();
             $table->boolean('status')->default(1);

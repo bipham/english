@@ -10,14 +10,19 @@ var content_post = '';
 var content_highlight = '';
 var content_quiz = '';
 var content_answer_quiz = '';
+var limit_time = 0;
 var cate_selected = '';
 var type_question = '';
+var option_list_questions = '';
+var type_lesson = 1;
 var title_post = '';
 var img_url = '';
 var img_name = '';
 var img_extension = '';
 var listQ = [];
 var listAnswer = {};
+var listKeyword = {};
+var list_type_questions = {};
 var i = '';
 var idremove = '';
 var listHl = [];
@@ -27,7 +32,8 @@ var boolRemove = false;
 var baseUrl = document.location.origin;
 var ajaxCreateNewCate = baseUrl + '/createNewCate';
 var ajaxCreateNewTypeQuiz = baseUrl + '/createNewTypeQuiz';
-var ajaxUploadFinish = baseUrl + '/upload';
+var ajaxGetListTypeQuestion = baseUrl + '/getTypeQuestion';
+var ajaxUploadFinish = baseUrl + '/uploadReadingLesson';
 var hltr = new TextHighlighter(sandbox, {
     onBeforeHighlight: function (range) {
         i = prompt("Higlight for answer number:", "");
@@ -71,6 +77,7 @@ var hltr = new TextHighlighter(sandbox, {
 $( document ).ready(function() {
     content_post = CKEDITOR.instances["contentPost"].getData();
     content_quiz = CKEDITOR.instances["contentQuiz"].getData();
+    type_lesson = $('#typeLesson').val();
     $('.btn-next-step-quiz').click(function () {
         cate_selected = $('#prtcate').val();
         title_post = $('input#itemname').val();
@@ -78,6 +85,22 @@ $( document ).ready(function() {
         if (checkDataStepPost) {
             $('.step-content-post').addClass('hidden-class');
             $('.step-content-quiz').removeClass('hidden-class');
+            $.ajax({
+                type: "GET",
+                url: ajaxGetListTypeQuestion,
+                dataType: "json",
+                success: function (data) {
+                    jQuery.each( data.list_type_questions, function( index_list_type_question, list_type_question ) {
+                        option_list_questions += '<option value="' + list_type_question.id + '">' + list_type_question.name + '</option>';
+                    });
+                },
+                error: function (data) {
+                    bootbox.alert({
+                        message: "FAIL TYPE QUESTIONS!",
+                        backdrop: true
+                    });
+                }
+            });
         }
     });
 
@@ -88,20 +111,63 @@ $( document ).ready(function() {
 
     $('.btn-next-step-answer').click(function () {
         var checkDataStepQuiz = checkStepQuiz();
+        console.log('type Lesson: ' + type_lesson);
         if (checkDataStepQuiz) {
-            if (content_quiz != CKEDITOR.instances["contentQuiz"].getData()) {
+            if ((content_quiz != CKEDITOR.instances["contentQuiz"].getData()) || (type_lesson != $('#typeLesson').val()) ) {
                 content_quiz = CKEDITOR.instances["contentQuiz"].getData();
+                type_lesson = $('#typeLesson').val();
                 $('.preview-content-quiz .card-block').html(content_quiz);
                 $('.answer-area').html('');
+                $('.type-only-question-area').html('');
                 listQ = [];
+                if (type_lesson == 1) {
+                    $('.type-only-question-area').append(   '<div class="form-group">' +
+                                                                '<label for="select-type-question-only"><strong>Chọn Loai cau hoi</strong></label> ' +
+                                                                '<select class="form-control" id="onlyTypeQuestion" name="select-type-question-only" > ' +
+                                                                    '<option value="">Chọn Loai cau hoi!</option> ' +
+                                                                    option_list_questions +
+                                                                '</select> ' +
+                                                            '</div>');
+                }
                 $('.question-quiz').each(function () {
                     var qnumber = $(this).data('qnumber');
                     if (jQuery.inArray(qnumber, listQ) == -1) {
                         listQ.push(qnumber);
                         var qorder = $(this).attr('name');
                         qorder = qorder.match(/\d+/);
-                        // console.log('Question: ' + listQ);
-                        $('.answer-area').append('<div class="answer-key"><span><strong>Answer ' + qorder + ': </strong></span><input class="answer-q answer-' + qorder + '" data-qnumber="' + qnumber + '" /></div>');
+                        if (type_lesson == 1) {
+                            $('.answer-area').append(   '<div class="answer-key answer-enter-' + qnumber + '" data-qnumber="' + qnumber + '">' +
+                                                            '<h5 class="title-answer-for-question title-custom">Question ' + qorder + ':</h5>' +
+                                                            '<div class="enter-answer-key row-enter-custom">' +
+                                                                '<div class="title-row-enter">Answer ' + qorder + ': </div>' +
+                                                                '<input class="answer-q answer-' + qorder + '" data-qnumber="' + qnumber + '" />' +
+                                                            '</div>' +
+                                                            '<div class="enter-keyword row-enter-custom">' +
+                                                                '<div class="title-row-enter">Keyword ' + qorder + ': </div>' +
+                                                                '<textarea class="input-keyword keyword-' + qorder + '" data-qnumber="' + qnumber + '"></textarea>' +
+                                                            '</div>' +
+                                                        '</div>');
+                        }
+                        else {
+                            $('.answer-area').append(   '<div class="answer-key answer-enter-' + qnumber + '" data-qnumber="' + qnumber + '">' +
+                                                            '<h5 class="title-answer-for-question title-custom">Question ' + qorder + ':</h5>' +
+                                                            '<div class="enter-answer-key row-enter-custom">' +
+                                                                '<div class="title-row-enter">Answer ' + qorder + ': </div>' +
+                                                                '<input class="answer-q answer-' + qorder + '" data-qnumber="' + qnumber + '" />' +
+                                                            '</div>' +
+                                                            '<div class="enter-keyword row-enter-custom">' +
+                                                                '<div class="title-row-enter">Keyword ' + qorder + ': </div>' +
+                                                                '<textarea class="input-keyword keyword-' + qorder + '" data-qnumber="' + qnumber + '"></textarea>' +
+                                                            '</div>' +
+                                                            '<div class="enter-type-question row-enter-custom">' +
+                                                                '<label for="select-type-question-' + qnumber + '" data-qnumber="' + qnumber + '"><strong>Chọn Loai cau hoi</strong></label> ' +
+                                                                '<select class="form-control sl-type-question-' + qorder + '" data-qnumber="' + qnumber + '" name="select-type-question-' + qnumber + '"> ' +
+                                                                    '<option value="">Chọn Loai cau hoi!</option> ' +
+                                                                    option_list_questions +
+                                                                '</select> ' +
+                                                            '</div>' +
+                                                        '</div>');
+                        }
                     }
                 });
             }
@@ -126,6 +192,9 @@ $( document ).ready(function() {
 
     $('.btn-next-step-highlight').click(function () {
         var checkDataStepAnswer = checkStepAnswer();
+        console.log('list type: ' + JSON.stringify(list_type_questions));
+        console.log('list answer: ' + JSON.stringify(listAnswer));
+        console.log('list keyword: ' + JSON.stringify(listKeyword));
         if (checkDataStepAnswer) {
             $('.step-highlight-answer').removeClass('hidden-class');
             $('.step-answer-key').addClass('hidden-class');
@@ -146,8 +215,6 @@ $( document ).ready(function() {
     $('.btn-prev-step-answer').click(function () {
         $('.step-answer-key').removeClass('hidden-class');
         $('.step-highlight-answer').addClass('hidden-class');
-        // $('#sandbox').html('');
-        // $('.remove-highlight-area').html('');
     });
 
     $('.btn-next-step-preview').click(function () {
@@ -162,7 +229,33 @@ $( document ).ready(function() {
             var qorder = $(this).attr('name');
             qorder = qorder.match(/\d+/);
             var answer_key = $('.answer-' + qorder).val();
-            $(this).parent().after('<div class="explain-area"><span><strong>Answer ' + qorder + ': ' + answer_key + '</strong></span><a class="btn btn-xs btn-primary btn-locate-highlight" data-qnumber="' + qnumber +'" onclick="scrollToHighlight(' + qorder + ')"><i class="fa fa-map-marker" aria-hidden="true"></i>&nbsp;Locate</a><a class="btn btn-xs btn-warning btn-show-comments" data-qnumber="' + qnumber +'" data-toggle="collapse" href="#commentArea-' + qnumber + '" aria-expanded="false" aria-controls="commentArea-' + qnumber + '" onclick="showComments(' + qnumber + ')"><i class="fa fa-question" aria-hidden="true"></i>&nbsp;Comments</a><div class="collapse collage-comments collapse-custom" id="commentArea-' + qnumber +'"> <div class="card card-block comments-area">Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.</div></div></div>');
+            $(this).parent().after( '<div class="explain-area">' +
+                                        '<span>' +
+                                            '<strong>Answer ' + qorder + ': ' + answer_key + '</strong>' +
+                                        '</span>' +
+                                        '<a class="btn btn-xs btn-primary btn-locate-highlight" data-qnumber="' + qnumber +'" onclick="scrollToHighlight(' + qorder + ')">' +
+                                            '<i class="fa fa-map-marker" aria-hidden="true"></i>' +
+                                            '&nbsp;Locate' +
+                                        '</a>' +
+                                        '<a class="btn btn-xs btn-info btn-show-keywords" data-qnumber="' + qnumber +'" data-toggle="collapse" href="#keywordArea-' + qnumber + '" aria-expanded="false" aria-controls="keywordArea-' + qnumber + '" onclick="showKeywords(' + qnumber + ')">' +
+                                            '<i class="fa fa-key" aria-hidden="true"></i>' +
+                                            '&nbsp;Keywords' +
+                                        '</a>' +
+                                        '<a class="btn btn-xs btn-warning btn-show-comments" data-qnumber="' + qnumber +'" data-toggle="collapse" href="#commentArea-' + qnumber + '" aria-expanded="false" aria-controls="commentArea-' + qnumber + '" onclick="showComments(' + qnumber + ')">' +
+                                            '<i class="fa fa-question" aria-hidden="true"></i>' +
+                                            '&nbsp;Comments' +
+                                        '</a>' +
+                                        '<div class="collapse collage-keywords collapse-custom" id="keywordArea-' + qnumber +'"> ' +
+                                            '<div class="card card-block keywords-area">' +
+                                                'ea proident.' +
+                                            '</div>' +
+                                        '</div>' +
+                                        '<div class="collapse collage-comments collapse-custom" id="commentArea-' + qnumber +'"> ' +
+                                            '<div class="card card-block comments-area">' +
+                                                'ea proident.' +
+                                            '</div>' +
+                                        '</div>' +
+                                    '</div>');
         });
         $('#pr-quiz input').each(function () {
             $(this).attr('disabled', 'disabled');
@@ -182,87 +275,72 @@ $( document ).ready(function() {
     });
 
     $('.btn-create-new-cate').click(function () {
-        console.log('ajaxurl: ' + ajaxCreateNewCate);
         var cateName = $('input#newCate').val();
-        $.ajax({
-            type: "GET",
-            url: ajaxCreateNewCate,
-            dataType: "json",
-            data: { cateName: cateName },
-            success: function (data) {
-                console.log('sucess:', data);
-                $('#prtcate').append('<option selected value="' + data.cate_id + '">' + data.newCate + '</option>');
-                $('#newCate').val('');
-                bootbox.alert({
-                    message: "Create cate success!",
-                    backdrop: true
-                });
-            },
-            error: function (data) {
-                console.log('Error:', data);
-                bootbox.alert({
-                    message: "Create cate fail!",
-                    backdrop: true
-                });
-            }
-        });
+        if (cateName == '') {
+            bootbox.alert({
+                message: "Name of cate not null!",
+                backdrop: true
+            });
+        }
+        else {
+            $.ajax({
+                type: "GET",
+                url: ajaxCreateNewCate,
+                dataType: "json",
+                data: { cateName: cateName },
+                success: function (data) {
+                    $('#prtcate').append('<option selected value="' + data.cate_id + '">' + data.newCate + '</option>');
+                    $('#newCate').val('');
+                    bootbox.alert({
+                        message: "Create cate success!",
+                        backdrop: true
+                    });
+                },
+                error: function (data) {
+                    bootbox.alert({
+                        message: "Create cate fail!",
+                        backdrop: true
+                    });
+                }
+            });
+        }
     });
 
-    $('.btn-create-new-type-quiz').click(function () {
-        console.log('ajaxurl: ' + ajaxCreateNewTypeQuiz);
-
-        var typeName = $('input#newTypeQuiz').val();
-
-        console.log('typeName: ' + typeName);
-        $.ajax({
-            type: "GET",
-            url: ajaxCreateNewTypeQuiz,
-            dataType: "json",
-            data: { typeName: typeName },
-            success: function (data) {
-                console.log('sucess:', data);
-                console.log('sucess asd:', data.typeName);
-                $('#show-list-type-quiz').append('<input type="checkbox" name="type_quiz" value="' + data.typeId + '">' + data.typeName + '<br />');
-                $('#newTypeQuiz').val('');
-                bootbox.alert({
-                    message: "Create cate success!",
-                    backdrop: true
-                });
-            },
-            error: function (data) {
-                console.log('Error:', data);
-                bootbox.alert({
-                    message: "Create cate fail!",
-                    backdrop: true
-                });
-            }
-        });
-    });
+    // $('.btn-create-new-type-quiz').click(function () {
+    //     var typeName = $('input#newTypeQuiz').val();
+    //     $.ajax({
+    //         type: "GET",
+    //         url: ajaxCreateNewTypeQuiz,
+    //         dataType: "json",
+    //         data: { typeName: typeName },
+    //         success: function (data) {
+    //             $('#show-list-type-quiz').append('<input type="checkbox" name="type_quiz" value="' + data.typeId + '">' + data.typeName + '<br />');
+    //             $('#newTypeQuiz').val('');
+    //             bootbox.alert({
+    //                 message: "Create cate success!",
+    //                 backdrop: true
+    //             });
+    //         },
+    //         error: function (data) {
+    //             bootbox.alert({
+    //                 message: "Create cate fail!",
+    //                 backdrop: true
+    //             });
+    //         }
+    //     });
+    // });
 
     $('.btn-finish-steps').click(function () {
-        console.log('ajax: ' + ajaxUploadFinish);
         content_answer_quiz =  $('#pr-quiz').html();
         content_highlight = $('#pr-post').html();
-        type_question = getValueTypeQuestion();
-        console.log('img_name: ' + img_name);
-        console.log('img_url: ' + img_url);
-        // console.log('img_ex: ' + img_extension);
-        console.log('Cate id : ' + cate_selected);
-        console.log('Title Post : ' + title_post);
-        console.log('content highlight: ' + content_highlight);
-        console.log('content post: ' + content_post);
-        console.log('content quiz: ' + content_quiz);
-        console.log('content answer: ' + content_answer_quiz);
-        console.log('list answer: ' + JSON.stringify(listAnswer));
+        limit_time = $('#limitTime').val();
+        // type_question = getValueTypeQuestion();
         $.ajax({
             type: "POST",
             url: ajaxUploadFinish,
-            // dataType: "json",
-            data: { img_url: img_url, img_name: img_name, title_post: title_post, list_answer: listAnswer, cate_selected: cate_selected, content_post: content_post, content_highlight: content_highlight, content_quiz: content_quiz, content_answer_quiz: content_answer_quiz, type_question: type_question },
+            dataType: "json",
+            data: { img_url: img_url, img_name: img_name, title_post: title_post, list_answer: listAnswer, cate_selected: cate_selected, content_post: content_post, content_highlight: content_highlight, content_quiz: content_quiz, content_answer_quiz: content_answer_quiz, list_type_questions: list_type_questions, listKeyword: listKeyword, type_lesson: type_lesson, limit_time: limit_time },
             success: function (data) {
-                console.log('sucess:', data);
-                // $('#prtcate').append('<option selected value="' + data.newCate + '">' + data.newCate + '</option>');
-                // $('#newCate').val('');
                 bootbox.alert({
                     message: "Create post success!",
                     backdrop: true,
@@ -272,7 +350,6 @@ $( document ).ready(function() {
                 });
             },
             error: function (data) {
-                console.log('Error:', data);
                 bootbox.alert({
                     message: "Create post fail!",
                     backdrop: true
@@ -284,7 +361,6 @@ $( document ).ready(function() {
 
 $(document).on("click", ".remove",function() {
     idremove = $(this).data('removeid');
-    console.log('id_remove: ' + idremove);
     noti = false;
     hltr.removeHighlights();
 });
@@ -307,9 +383,6 @@ function readURL(input) {
     }
     else {
         img_name = $('input[type=file]').val().split('\\').pop();
-        // img_extension = img_name.substr( (img_name.lastIndexOf('.') + 1) ).toLowerCase();
-        // var img_ex = img_name.substr( (img_name.lastIndexOf('.')) ).toLowerCase();
-        // img_name = img_name.replace(img_ex, '');
         if (input.files && input.files[0]) {
             var reader = new FileReader();
 
@@ -375,24 +448,41 @@ function checkStepAnswer() {
         var qorder = $(this).attr('name');
         qorder = qorder.match(/\d+/);
         var answer_key = $('.answer-' + qorder).val();
+        var keywords_key = $('.keyword-' + qorder).val();
         if (answer_key != '') {
             listAnswer[qnumber] = answer_key;
         }
         else {
             delete listAnswer[qnumber];
         }
+
+        listKeyword[qnumber] = keywords_key;
+
+        if (type_lesson == 1) {
+            var type_question_key = $('#onlyTypeQuestion').val();
+        }
+        else {
+            var type_question_key = $('.sl-type-question-' + qorder).val();
+        }
+
+        if (type_question_key != '') {
+            list_type_questions[qnumber] = type_question_key;
+        }
+        else {
+            delete list_type_questions[qnumber];
+        }
     });
-    if (listQ.length == Object.keys(listAnswer).length) {
+    if ((listQ.length == Object.keys(listAnswer).length) && (listQ.length  == Object.keys(list_type_questions).length)) {
         return true;
     }
     else return false;
 }
 
-function getValueTypeQuestion() {
-    var list_type_question = [];
-    $('.type-quiz .card-block #show-list-type-quiz input[name=type_quiz]:checked').each(function () {
-        var val_type = $(this).val();
-        list_type_question.push(val_type);
-    });
-    return list_type_question;
-}
+// function getValueTypeQuestion() {
+//     var list_type_question = [];
+//     $('.type-quiz .card-block #show-list-type-quiz input[name=type_quiz]:checked').each(function () {
+//         var val_type = $(this).val();
+//         list_type_question.push(val_type);
+//     });
+//     return list_type_question;
+// }

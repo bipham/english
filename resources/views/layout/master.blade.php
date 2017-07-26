@@ -16,11 +16,12 @@
     <link rel="stylesheet" href="{{asset('public/libs/font-awesome/css/font-awesome.min.css')}}"/>
     <link rel="stylesheet" href="{{asset('public/css/client/responsive.css')}}"/>
     <link rel="stylesheet" href="{{asset('public/css/my-style.css')}}"/>
-
+    <link rel="stylesheet" href="{{asset('public/libs/toolbar/jquery.toolbar.css')}}" />
     @yield('css')
 </head>
 <body>
 @include('layout.header')
+@include('layout.menuHeaderReading')
 <div role="main" class="main main-page">
 
     @yield('top-information')
@@ -36,8 +37,22 @@
 <script src="{{asset('public/libs/highlight/TextHighlighter.min.js')}}"></script>
 <script src="{{asset('public/libs/bootbox/bootbox.min.js')}}"></script>
 <script src="//cdn.rawgit.com/julmot/mark.js/master/dist/jquery.mark.min.js"></script>
+<script src="{{asset('public/libs/toolbar/jquery.toolbar.js')}}"></script>
 <script src="{{asset('public/js/my-script.js')}}"></script>
-
+<script language="JavaScript">
+    <!--
+    var dictionaries = "ev_ve";
+    // -->
+</script>
+<script language="JavaScript1.2" src="http://vndic.net/js/vndic.js" type='text/javascript'></script>
+<script language="JavaScript">
+    $('.btn-toolbar').toolbar({
+        content: '#toolbar-options',
+        position: 'right',
+        style: 'primary',
+        event: 'click'
+    });
+</script>
 @yield('scripts')
 </body>
 </html>

@@ -26,3 +26,23 @@ Created by Bi Pham
     width: 100px;
     margin-right: 20px;
 }
+
+.answer-key {
+    padding: 10px;
+    border: 1px dashed black;
+    margin-bottom: 20px;
+}
+
+.title-answer-for-question {
+    color: red;
+    text-decoration: underline;
+}
+
+.title-row-enter {
+    font-weight: 700;
+}
+
+.input-keyword {
+    min-width: 70%;
+    min-height: 80px;
+}

@@ -54,3 +54,33 @@ function showComments(i) {
         }
     });
 }
+
+function showKeywords(i) {
+    // var ajaxUrlShowComments = baseUrl + '/showComments/' + i;
+    console.log('keywords: ' + JSON.stringify(listKeyword));
+    // $.ajax({
+    //     type: "GET",
+    //     url: ajaxUrlShowComments,
+    //     dataType: "json",
+    //     // data: { list_answer: list_answer, quizId: quizId},
+    //     success: function (data) {
+    //         console.log('sucess:', data);
+    //         $('#commentArea-' + i).html('');
+    //         if (data.list_comments.length > 0) {
+    //             jQuery.each( data.list_comments, function( index, list_comment ) {
+    //                 $('#commentArea-' + i).append('<p>' + list_comment.content_cmt + '</p>');
+    //             });
+    //         }
+    //         else {
+    //             $('#commentArea-' + i).append('<p>Chua co comment nao cho cau hoi nay!</p>');
+    //         }
+    //     },
+    //     error: function (data) {
+    //         console.log('Error:', data);
+    //         bootbox.alert({
+    //             message: "Error, please contact admin!",
+    //             backdrop: true
+    //         });
+    //     }
+    // });
+}

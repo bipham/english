@@ -116,8 +116,102 @@ ul.navbar-nav li.nav-item a:hover {
 }
 
 header#header {
-	background: #bd9b19;
+	/*background: #bd9b19;*/
+    height: 140px;
+    background: #fff;
+    border-bottom: 1px solid rgba(0,0,0,0.2);
+    /*-webkit-transition: all 0.3s ease-in-out;*/
+    /*-moz-transition: all 0.3s ease-in-out;*/
+    /*-o-transition: all 0.3s ease-in-out;*/
+    /*transition: all 0.3s ease-in-out;*/
 }
+
+ul#main-navigation {
+    width: 300px;
+}
+
+header#header .header-top {
+    float: left;
+    width: 100%;
+    height: 90px;
+    padding-top: 30px;
+}
+
+.menu-fix-custom .container {
+	/*width: 70% !important;*/
+}
+
+.title-type-lesson {
+	margin-bottom: 0;
+	margin-right: 30px;
+	line-height: 1.7;
+	color: blue;
+}
+
+.tab-content {
+	padding: 20px 0;
+}
+
+.main.main-page {
+	height: 100%;
+	position: relative;
+}
+
+.overlay {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.28);
+	/* left: 0; */
+	/* top: 0; */
+	z-index: 9998;
+}
+
+.toolbar-inner {
+	position: fixed;
+	z-index: 9999;
+	top: 20%;
+}
+
+div#toolbar-open {
+	width: 60px;
+	height: 60px;
+	border-radius: 50%;
+	background: #44dc12;
+	text-align: center;
+	font-weight: bold;
+	left: 30px;
+	position: relative;
+	top: 100px;
+}
+
+.toolbar-content {
+	background: aliceblue;
+	width: 250px;
+	padding: 10px 20px;
+	position: absolute;
+	top: 0;
+	 display: none;
+}
+
+.center-class.logo-webstite {
+    left: calc( 50% - 108px / 2 );
+    position: absolute;
+    /*-webkit-transform: translateX(-50%);*/
+    /*-moz-transform: translateX(-50%);*/
+    /*-ms-transform: translateX(-50%);*/
+    /*-o-transform: translateX(-50%);*/
+    /*transform: translateX(-50%);*/
+    /*-webkit-transition: all 0.3s ease-in-out;*/
+    /*-moz-transition: all 0.3s ease-in-out;*/
+    /*-o-transition: all 0.3s ease-in-out;*/
+    /*transition: all 0.3s ease-in-out;*/
+}
+
+/*.menu-fix-custom {*/
+    /*background: red;*/
+    /*margin-bottom: 30px;*/
+/*}*/
 
 ul.primary-header-custom li.nav-item:before {
 	content: ' ';
@@ -126,9 +220,27 @@ ul.primary-header-custom li.nav-item:before {
 	height: 100%;
 }
 
-a.nav-link {
+#main-navigation a.nav-link {
 	vertical-align: middle;
 	display: inline-block;
+    font-weight: 600;
+    /* font-size: 20px; */
+    letter-spacing: 1.2px;
+}
+
+#navigation-my-web a.nav-link {
+    color: rgba(0,0,0,0.4)!important;
+}
+
+.navigation-custom {
+    list-style: none;
+    margin-bottom: 0;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    text-align: center;
+    margin: 0 auto;
 }
 
 
@@ -341,4 +453,12 @@ a.nav-link {
 	height: auto;
 	display: inline-block;
 	vertical-align: middle;
+}
+
+.full-width-class {
+	width: 100%;
+}
+
+.img-logo-website {
+	height: 60px;
 }

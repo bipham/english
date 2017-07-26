@@ -57,7 +57,7 @@ class AmqpCaster
             return $a;
         }
 
-        // BC layer in the amqp libs
+        // BC layer in the amqp lib
         if (method_exists($c, 'getReadTimeout')) {
             $timeout = $c->getReadTimeout();
         } else {

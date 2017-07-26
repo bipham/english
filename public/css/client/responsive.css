@@ -89,6 +89,9 @@
     .container {
         width: 90%;
     }
+    header .container {
+        width: 60%;
+    }
     .col-footer-custom {
         width: auto;
         max-width: 50%;
