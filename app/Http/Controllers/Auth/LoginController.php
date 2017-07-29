@@ -4,6 +4,11 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use App\Http\Requests\LoginRequest;
+use Illuminate\Http\Request;
+use App\Models\User;
+use Validator;
+use Auth;
 
 class LoginController extends Controller
 {
@@ -37,7 +42,30 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
-    public function login() {
-        return 'he';
+    public function getLogin() {
+        return view('auth.login');
+    }
+
+    public function postLogin(LoginRequest $request) {
+        $login = array(
+            'email' => $request->email,
+            'password' => $request->password
+        );
+        if (!Auth::attempt($login)) {
+            $message = ['flash_level'=>'danger message-custom','flash_message'=>'Thông tin email/password sai.'];
+            return redirect()->back()->with($message);
+            //return view('pages.myStore');
+        }
+        else {
+            //return view('pages.myStore');
+            $check = $this->authenticated($request, $this->guard()->user());
+            if ($check) {
+                return redirect()->intended('/');
+            }
+            else {
+                $message = ['flash_level'=>'warning message-custom','flash_message'=>'Bạn cần phải xác nhận tài khoản. Vui lòng kiểm tra email của bạn.'];
+                return redirect()->Route('getLogin')->with($message);
+            }
+        }
     }
 }

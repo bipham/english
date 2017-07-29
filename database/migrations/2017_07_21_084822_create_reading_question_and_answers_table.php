@@ -18,8 +18,9 @@ class CreateReadingQuestionAndAnswersTable extends Migration
             $table->integer('question_id')->unsigned();
             $table->integer('user_id')->unsigned();
             $table->integer('reply_id')->unsigned()->default(0);
-            $table->string('content_cmt');
+            $table->text('content_cmt');
             $table->boolean('status')->default(1);
+            $table->boolean('private')->default(1);
             $table->foreign('question_id')->references('id')->on('reading_questions')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();

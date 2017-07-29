@@ -22,7 +22,10 @@
                     <a class="nav-link reading-practice" data-toggle="tab" href="#practice" role="tab">Practice</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link reading-test" data-toggle="tab" href="#readingTest" role="tab">Test</a>
+                    <a class="nav-link reading-test-lesson" data-toggle="tab" href="#readingTestLesson" role="tab">Test Lessons</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link reading-test-quiz" data-toggle="tab" href="#readingTestQuiz" role="tab">Test Quiz</a>
                 </li>
             </ul>
 
@@ -34,8 +37,11 @@
                 <div class="tab-pane" id="practice" role="tabpanel">
                     @yield('readingPractice')
                 </div>
-                <div class="tab-pane" id="readingTest" role="tabpanel">
+                <div class="tab-pane" id="readingTestLesson" role="tabpanel">
                     @yield('readingTest')
+                </div>
+                <div class="tab-pane" id="readingTestQuiz" role="tabpanel">
+                    @yield('readingTestQuiz')
                 </div>
             </div>
         </div>

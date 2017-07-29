@@ -246,13 +246,15 @@ $( document ).ready(function() {
                                             '&nbsp;Comments' +
                                         '</a>' +
                                         '<div class="collapse collage-keywords collapse-custom" id="keywordArea-' + qnumber +'"> ' +
+                                            '<div class="card card-header keywords-area-title">KEYWORDS:' +
+                                            '</div>' +
                                             '<div class="card card-block keywords-area">' +
-                                                'ea proident.' +
                                             '</div>' +
                                         '</div>' +
                                         '<div class="collapse collage-comments collapse-custom" id="commentArea-' + qnumber +'"> ' +
+                                            '<div class="card card-header comments-area-title">QUESTION & ANSWER:' +
+                                            '</div>' +
                                             '<div class="card card-block comments-area">' +
-                                                'ea proident.' +
                                             '</div>' +
                                         '</div>' +
                                     '</div>');
@@ -263,6 +265,8 @@ $( document ).ready(function() {
         $('#pr-quiz select').each(function () {
             $(this).attr('disabled', 'disabled');
         });
+        content_answer_quiz =  $('#pr-quiz').html();
+        content_highlight = $('#pr-post').html();
     });
 
     $('.btn-prev-step-highlight').click(function () {
@@ -331,8 +335,6 @@ $( document ).ready(function() {
     // });
 
     $('.btn-finish-steps').click(function () {
-        content_answer_quiz =  $('#pr-quiz').html();
-        content_highlight = $('#pr-post').html();
         limit_time = $('#limitTime').val();
         // type_question = getValueTypeQuestion();
         $.ajax({
@@ -345,7 +347,7 @@ $( document ).ready(function() {
                     message: "Create post success!",
                     backdrop: true,
                     callback: function(){
-                        location.href= baseUrl + '/readingPost';
+                        location.href= 'http://english.dev/reading';
                     }
                 });
             },

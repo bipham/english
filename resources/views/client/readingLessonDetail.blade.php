@@ -5,7 +5,7 @@
  * Date: 7/18/2017
  * Time: 8:30 PM
  */
-//dd($type_lesson_id);
+//dd($type_lesson);
 ?>
 @extends('layout.master')
 @section('meta-title')
@@ -48,12 +48,12 @@
         <div class="container reading-page page-custom">
             <div class="list-reading-thumbnail">
                 <div class="row list-lesson-thumbnail">
-                    @foreach($lessons as $lesson)
+                    @foreach($practice_lessons as $practice_lesson)
                         <?php
-                        $cate_lesson = $readingCategoryLessonModel->getCateByLessonId($lesson->id);
+                        $cate_lesson = $readingCategoryLessonModel->getCateByLessonId($practice_lesson->lesson_id);
                         $cate = $readingCategoryModel->getCateById($cate_lesson->cate_id);
                         ?>
-                        @include('utils.contentGrid',['lesson' => $lesson, 'cate' => json_decode($cate)])
+                        @include('utils.contentGrid',['lesson' => $practice_lesson, 'cate' => json_decode($cate)])
                     @endforeach
                 </div>
             </div>
@@ -61,6 +61,22 @@
     @endsection
 
     @section('readingTest')
+        <div class="container reading-page page-custom">
+            <div class="list-reading-thumbnail">
+                <div class="row list-lesson-thumbnail">
+                    @foreach($test_lessons as $test_lesson)
+                        <?php
+                        $cate_lesson = $readingCategoryLessonModel->getCateByLessonId($test_lesson->lesson_id);
+                        $cate = $readingCategoryModel->getCateById($cate_lesson->cate_id);
+                        ?>
+                        @include('utils.contentGrid',['lesson' => $test_lesson, 'cate' => json_decode($cate)])
+                    @endforeach
+                </div>
+            </div>
+        </div>
+    @endsection
+
+    @section('readingTestQuiz')
         <div class="container lesson-detail-page page-custom">
             <input type="hidden" name="_token" value="{!!csrf_token()!!}">
             <div class="row lesson-detail">
@@ -94,6 +110,7 @@
             </button>
         </div>
     @endsection
+
 @endsection
 
 @section('scripts')

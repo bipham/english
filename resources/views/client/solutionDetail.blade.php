@@ -5,11 +5,14 @@
  * Date: 7/18/2017
  * Time: 8:30 PM
  */
-//dd($lesson);
+//dd($lesson_quiz);
 ?>
 @extends('layout.master')
 @section('meta-title')
     Solution Detail
+@endsection
+@section('css')
+    <link rel="stylesheet" href="{{asset('public/css/client/readingSolution.css')}}">
 @endsection
 @section('content')
     <div class="container lesson-detail-page page-custom">

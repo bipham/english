@@ -27,21 +27,45 @@ class ReadingLesson extends Model
         return $this->where('status',1)->orderBy('updated_at','desc')->take($number)->get();
     }
 
-    public function getNewestOfTypeQuestion($number, $type_question_id) {
+    public function getPracticeNewestOfTypeQuestion($number, $type_question_id) {
         $lessons = DB::table('reading_lessons')
             ->leftJoin('reading_quizzs', 'reading_lessons.id', '=', 'reading_quizzs.lesson_id')
             ->leftJoin('reading_type_question_of_quizzes', 'reading_type_question_of_quizzes.quiz_id', '=', 'reading_quizzs.id')
             ->where('reading_quizzs.type_lesson', '=', 1)
             ->where('reading_type_question_of_quizzes.type_question_id', '=', $type_question_id)
+            ->where('reading_quizzs.limit_time', '=', 0)
             ->take($number)
             ->get();
         return $lessons;
     }
 
-    public function getNewestOfTypeLesson ($number, $type_lesson) {
+    public function getTestNewestOfTypeQuestion($number, $type_question_id) {
+        $lessons = DB::table('reading_lessons')
+            ->leftJoin('reading_quizzs', 'reading_lessons.id', '=', 'reading_quizzs.lesson_id')
+            ->leftJoin('reading_type_question_of_quizzes', 'reading_type_question_of_quizzes.quiz_id', '=', 'reading_quizzs.id')
+            ->where('reading_quizzs.type_lesson', '=', 1)
+            ->where('reading_type_question_of_quizzes.type_question_id', '=', $type_question_id)
+            ->where('reading_quizzs.limit_time', '>', 0)
+            ->take($number)
+            ->get();
+        return $lessons;
+    }
+
+    public function getPracticeNewestOfTypeLesson ($number, $type_lesson) {
         $lessons = DB::table('reading_lessons')
             ->leftJoin('reading_quizzs', 'reading_lessons.id', '=', 'reading_quizzs.lesson_id')
             ->where('reading_quizzs.type_lesson', '=', $type_lesson)
+            ->where('reading_quizzs.limit_time', '=', 0)
+            ->take($number)
+            ->get();
+        return $lessons;
+    }
+
+    public function getTestNewestOfTypeLesson ($number, $type_lesson) {
+        $lessons = DB::table('reading_lessons')
+            ->leftJoin('reading_quizzs', 'reading_lessons.id', '=', 'reading_quizzs.lesson_id')
+            ->where('reading_quizzs.type_lesson', '=', $type_lesson)
+            ->where('reading_quizzs.limit_time', '>', 0)
             ->take($number)
             ->get();
         return $lessons;

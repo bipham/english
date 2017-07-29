@@ -34,4 +34,12 @@ class ReadingQuestion extends Model
         $query = $this->where('question_id_custom',$question_id_custom)->get()->pluck('id');
         return $query[0];
     }
+
+
+    public function getAllKeywordsByQuestionId($question_id) {
+        return $this    ->where('status',1)
+                        ->where('id', $question_id)
+                        ->get()
+                        ->pluck('keyword');
+    }
 }

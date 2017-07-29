@@ -38,4 +38,29 @@ function getIdLessonFromLinkLesson ($str) {
     preg_match_all('/\d+/', $str, $matches);
     return $matches[0][0];
 }
+
+function timeago($date) {
+    $timestamp = strtotime($date);
+
+    $strTime = array("giây", "phút", "giờ");
+    $length = array("60","60","24");
+
+    $currentTime = time();
+    if($currentTime >= $timestamp) {
+        $diff     = time()- $timestamp;
+        for($i = 0; $diff >= $length[$i] && $i < count($length)-1; $i++) {
+            $diff = $diff / $length[$i];
+        }
+
+        $diff = round($diff);
+
+        if ($diff > 24) {
+//            return gmdate("d M Y H:i:s", $date);
+            return date("d M Y",$timestamp);
+//            return $currentTime;
+        }
+        return $diff . " " . $strTime[$i] . " trước";
+    }
+}
+
 ?>

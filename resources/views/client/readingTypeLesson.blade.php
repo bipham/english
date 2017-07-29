@@ -25,12 +25,12 @@
         <div class="container reading-page page-custom">
             <div class="list-reading-thumbnail">
                 <div class="row list-lesson-thumbnail">
-                    @foreach($lessons as $lesson)
+                    @foreach($practice_lessons as $practice_lesson)
                         <?php
-                        $cate_lesson = $readingCategoryLessonModel->getCateByLessonId($lesson->id);
+                        $cate_lesson = $readingCategoryLessonModel->getCateByLessonId($practice_lesson->id);
                         $cate = $readingCategoryModel->getCateById($cate_lesson->cate_id);
                         ?>
-                        @include('utils.contentGrid',['lesson' => $lesson, 'cate' => json_decode($cate)])
+                        @include('utils.contentGrid',['lesson' => $practice_lesson, 'cate' => json_decode($cate)])
                     @endforeach
                 </div>
             </div>
@@ -38,7 +38,19 @@
     @endsection
 
     @section('readingTest')
-
+        <div class="container reading-page page-custom">
+            <div class="list-reading-thumbnail">
+                <div class="row list-lesson-thumbnail">
+                    @foreach($test_lessons as $test_lesson)
+                        <?php
+                        $cate_lesson = $readingCategoryLessonModel->getCateByLessonId($test_lesson->id);
+                        $cate = $readingCategoryModel->getCateById($cate_lesson->cate_id);
+                        ?>
+                        @include('utils.contentGrid',['lesson' => $test_lesson, 'cate' => json_decode($cate)])
+                    @endforeach
+                </div>
+            </div>
+        </div>
     @endsection
 @endsection
 
@@ -47,7 +59,7 @@
     <script>
         $(function () {
             $('#myTab a.reading-intro').tab('show');
-            $('#myTab a.reading-test').addClass('hidden');
+//            $('#myTab a.reading-test').addClass('hidden');
         })
     </script>
 @endsection

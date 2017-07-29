@@ -17,6 +17,10 @@
     <link rel="stylesheet" href="{{asset('public/css/client/responsive.css')}}"/>
     <link rel="stylesheet" href="{{asset('public/css/my-style.css')}}"/>
     <link rel="stylesheet" href="{{asset('public/libs/toolbar/jquery.toolbar.css')}}" />
+    <script>
+        var current_user = {!! json_encode(Auth::user()) !!};
+        {{--var current_user_name = {!! json_encode((array)Auth::user()->id) !!};--}}
+    </script>
     @yield('css')
 </head>
 <body>
@@ -52,6 +56,13 @@
         style: 'primary',
         event: 'click'
     });
+</script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
+<script>
+    var socket = io('http://english.dev:8890');
+    socket.on('chat:message', function (data) {
+        console.log(data);
+    })
 </script>
 @yield('scripts')
 </body>
