@@ -10,7 +10,7 @@ use App\Models\ReadingLesson;
 use App\Models\ReadingQuestionAndAnswer;
 use Request;
 use Auth;
-use LRedis;
+//use LRedis;
 
 
 class CommentQuestionController extends Controller
@@ -47,8 +47,8 @@ class CommentQuestionController extends Controller
 //            $question_id = $readingQuestionModel->getQuestionIdByIdCustom($question_id_custom);
 //            $questionAndAnswerModel = new ReadingQuestionAndAnswer();
 //            $result = $questionAndAnswerModel->createNewComment($question_id, $user_id, $reply_id, $content_cmt);
-            $redis = LRedis::connection();
-            $redis->publish('message', json_encode(['test'=>'tes']));
+//            $redis = LRedis::connection();
+//            $redis->publish('message', json_encode(['test'=>'tes']));
             return json_encode(['list_comment' => 'de']);
 //        }
     }

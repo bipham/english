@@ -24,7 +24,15 @@ class ReadingLesson extends Model
     }
 
     public function getNewest($number) {
-        return $this->where('status',1)->orderBy('updated_at','desc')->take($number)->get();
+        $lessons = DB::table('reading_lessons')
+            ->leftJoin('reading_category_lessons', 'reading_lessons.id', '=', 'reading_category_lessons.lesson_id')
+            ->leftJoin('reading_categories', 'reading_categories.id', '=', 'reading_category_lessons.cate_id')
+            ->leftJoin('reading_quizzs', 'reading_lessons.id', '=', 'reading_quizzs.lesson_id')
+//            ->leftJoin('reading_type_question_of_quizzes', 'reading_type_question_of_quizzes.quiz_id', '=', 'reading_quizzs.id')
+            ->take($number)
+            ->get();
+        return $lessons;
+//        return $this->where('status',1)->orderBy('updated_at','desc')->take($number)->get();
     }
 
     public function getPracticeNewestOfTypeQuestion($number, $type_question_id) {
